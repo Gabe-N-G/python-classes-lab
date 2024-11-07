@@ -8,10 +8,7 @@ class Game():
                         'a2': None, 'b2': None, 'c2': None,
                         'a3': None, 'b3': None, 'c3': None,
                     }
-    
-    def play_game(self):
-        print("ITS TIME TO PLAY THE GAMEEEEEE")
-
+        
     def print_board(self):
         b = self.board
         print(f"""
@@ -33,18 +30,10 @@ class Game():
             print(f"{self.winner} wins the game!")
         else:
             print(f"It's player {self.turn}'s turn!")
-    
-    def render(self):
-    # OPTIONAL
-        self.print_board()
-        self.print_message()
-        self.get_move()
-        self.switch_turn()
-        self.winner_check()
 
-    
     def get_move(self):
         while True:
+            print(f"Is is now {self.turn}'s turn")
             move = input(f"Enter a valid movie (example: A1): ").lower()
             if self.board.get(move):
                 # Check if self.board is occupied
@@ -79,17 +68,38 @@ class Game():
                 if(self.board[combo[0]] == self.board[combo[1]]):
                     if (self.board[combo[0]] == self.board[combo[2]]):
                         self.winner = self.turn
-                        print(f"WE HAVE A WINNER: {self.winner}")
+                        # print(f"WE HAVE A WINNER: {self.winner}")
 
     def switch_turn(self):
         self.turn = "O" if self.turn == "X" else "X"
-        print(self.turn)
+
+    def check_for_tie(self):
+        if all(self.board.values()):
+            if self.winner == None:
+                self.winner = "Tie"
+
+    def render(self):
+    # OPTIONAL
+        self.print_board()
+        self.print_message()
+
+    def play_game(self):
+        print("ITS TIME TO PLAY THE GAMEEEEEE")
+        while self.winner == None:
+            self.render()
+            self.get_move()
+            self.winner_check()
+            self.check_for_tie()
+            self.switch_turn()
+        if self.winner == "Tie":
+            print("The game is a tie")
+        else:
+            print(f"We have a winnner! {self.winner} wins!")
+
 
 
 # creating a game, then calling the play game method.
 game_instance = Game()
 game_instance.play_game()
-# game_instance.render()
-game_instance.switch_turn()
-game_instance.switch_turn()
+
 
